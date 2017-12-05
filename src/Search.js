@@ -1,20 +1,32 @@
 /* @flow */
 import * as React from 'react';
+import * as BooksAPI from './BooksAPI';
+import { throttle } from 'throttle-debounce';
 
 import Book from './Book';
 
 class Search extends React.Component {
   state = {
     query: '',
+    books: this.props.books,
   };
 
-  render({ books, moveBook, openSearch }) {
+  handleSearch = (e) => {
+    this.setState({ query: e.target.value });
+    throttle(500, this.state.query.length > 1 && BooksAPI.search(this.state.query, 25).then(books => {
+      this.setState({ books });
+    }));
+  }
+
+  render() {
+    const { moveBook, toggleSearch } = this.props;
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <a
             className="close-search"
-            onClick={openSearch}
+            onClick={toggleSearch}
           >
             Close
           </a>
@@ -29,7 +41,7 @@ class Search extends React.Component {
                 */}
             <input
               value={this.state.query}
-              onChange={e => this.setState({ query: e.target.value })}
+              onChange={this.handleSearch}
               type="text"
               placeholder="Search by title or author"
             />
@@ -37,7 +49,7 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {books.map(book => (
+            {this.state.books && !this.state.books.error && this.state.books.map(book => (
               <Book key={book.id} book={book} moveBook={moveBook} />
             ))}
           </ol>

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import BookShelf from './BookShelf';
 
-const BookList = ({ books, moveBook, openSearch }) => {
+const BookList = ({ books, moveBook, toggleSearch }) => {
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -26,7 +26,7 @@ const BookList = ({ books, moveBook, openSearch }) => {
         />
       </div>
       <div className="open-search">
-        <a onClick={openSearch}>Add a book</a>
+        <a onClick={toggleSearch}>Add a book</a>
       </div>
     </div>
   );

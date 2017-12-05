@@ -8,7 +8,6 @@ import Search from './Search';
 class BooksApp extends React.Component {
   componentDidMount() {
     BooksAPI.getAll().then(books => {
-      console.log('books', books);
       this.setState({ books });
     });
   }
@@ -22,7 +21,6 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false,
     books: [],
-    query: '',
   };
 
   moveBook = (book, targetShelf) => {
@@ -48,8 +46,8 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, targetShelf);
   };
 
-  openSearch = () => {
-    this.setState({ showSearchPage: true });
+  toggleSearch = () => {
+    this.setState((state) => ({ showSearchPage: !state.showSearchPage }));
   };
 
   render() {
@@ -59,13 +57,13 @@ class BooksApp extends React.Component {
           <Search
             books={this.state.books}
             moveBook={this.moveBook}
-            openSearch={this.openSearch}
+            toggleSearch={this.toggleSearch}
           />
         ) : (
           <BookList
             books={this.state.books}
             moveBook={this.moveBook}
-            openSearch={this.openSearch}
+            toggleSearch={this.toggleSearch}
           />
         )}
       </div>
