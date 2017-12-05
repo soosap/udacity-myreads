@@ -9,15 +9,19 @@ import Book from './Book';
 class Search extends React.Component {
   state = {
     query: '',
-    books: this.props.books,
+    searchResults: [],
   };
 
-  handleSearch = (e) => {
+  handleSearch = e => {
     this.setState({ query: e.target.value });
-    throttle(500, this.state.query.length > 1 && BooksAPI.search(this.state.query, 25).then(books => {
-      this.setState({ books });
-    }));
-  }
+    throttle(
+      500,
+      this.state.query.length > 1 &&
+        BooksAPI.search(e.target.value, 25).then(books => {
+          this.setState({ searchResults: books });
+        }),
+    );
+  };
 
   render() {
     const { moveBook, history } = this.props;
@@ -25,10 +29,7 @@ class Search extends React.Component {
     return (
       <div className="search-books">
         <div className="search-books-bar">
-          <a
-            className="close-search"
-            onClick={() => history.push('/')}
-          >
+          <a className="close-search" onClick={() => history.push('/')}>
             Close
           </a>
           <div className="search-books-input-wrapper">
@@ -50,9 +51,11 @@ class Search extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.books && !this.state.books.error && this.state.books.map(book => (
-              <Book key={book.id} book={book} moveBook={moveBook} />
-            ))}
+            {this.state.searchResults &&
+              !this.state.searchResults.error &&
+              this.state.searchResults.map(book => (
+                <Book key={book.id} book={book} moveBook={moveBook} />
+              ))}
           </ol>
         </div>
       </div>
