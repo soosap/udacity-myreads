@@ -11,12 +11,16 @@ const Book = ({ book, moveBook }) => {
             style={{
               width: 128,
               height: 193,
-              backgroundImage:
-                `url("${imageLinks.thumbnail || imageLinks.smallThumbnail}")`,
+              backgroundImage: `url("${imageLinks && imageLinks.thumbnail ||
+                imageLinks && imageLinks.smallThumbnail ||
+                'http://via.placeholder.com/128x193?text=No%20Cover'}")`,
             }}
           />
           <div className="book-shelf-changer">
-            <select value={shelf || 'none'} onChange={(e) => moveBook(book, e.target.value)}>
+            <select
+              value={shelf || 'none'}
+              onChange={e => moveBook(book, e.target.value)}
+            >
               <option value="none" disabled>
                 Move to...
               </option>
