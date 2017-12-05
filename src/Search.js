@@ -2,6 +2,7 @@
 import * as React from 'react';
 import * as BooksAPI from './BooksAPI';
 import { throttle } from 'throttle-debounce';
+import { withRouter } from 'react-router-dom';
 
 import Book from './Book';
 
@@ -19,14 +20,14 @@ class Search extends React.Component {
   }
 
   render() {
-    const { moveBook, toggleSearch } = this.props;
+    const { moveBook, history } = this.props;
 
     return (
       <div className="search-books">
         <div className="search-books-bar">
           <a
             className="close-search"
-            onClick={toggleSearch}
+            onClick={() => history.push('/')}
           >
             Close
           </a>
@@ -59,4 +60,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+export default withRouter(Search);

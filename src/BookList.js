@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import BookShelf from './BookShelf';
 
-const BookList = ({ books, moveBook, toggleSearch }) => {
+const BookList = ({ books, moveBook, history }) => {
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -26,10 +27,10 @@ const BookList = ({ books, moveBook, toggleSearch }) => {
         />
       </div>
       <div className="open-search">
-        <a onClick={toggleSearch}>Add a book</a>
+        <a onClick={() => history.push('/search')}>Add a book</a>
       </div>
     </div>
   );
 };
 
-export default BookList;
+export default withRouter(BookList);
