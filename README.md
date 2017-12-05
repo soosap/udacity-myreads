@@ -2,3 +2,5 @@
 
 - `yarn install`
 - `yarn start`
+
+![Demo](./demo.gif)
