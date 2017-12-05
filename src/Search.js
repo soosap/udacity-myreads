@@ -14,13 +14,12 @@ class Search extends React.Component {
 
   handleSearch = e => {
     this.setState({ query: e.target.value });
-    throttle(
-      500,
-      this.state.query.length > 1 &&
-        BooksAPI.search(e.target.value, 25).then(books => {
+    throttle(500, e.target.value && BooksAPI
+        .search(e.target.value, 25)
+        .then(books => {
           this.setState({ searchResults: books });
-        }),
-    );
+        })
+        .catch(() => this.setState({ searchResults: [] })));
   };
 
   render() {
