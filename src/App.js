@@ -23,6 +23,29 @@ class BooksApp extends React.Component {
     books: [],
   };
 
+  moveBook = (book, targetShelf) => {
+    const indexOfWhereThisBookIsCurrentlyResidingInBooksArray = this.state.books.findIndex(
+      b => {
+        return b.id === book.id;
+      },
+    );
+
+    const updatedBooks = [...this.state.books];
+    updatedBooks.splice(
+      indexOfWhereThisBookIsCurrentlyResidingInBooksArray,
+      1,
+      {
+        ...book,
+        shelf: targetShelf,
+      },
+    );
+
+    this.setState({
+      books: updatedBooks,
+    });
+    BooksAPI.update(book, targetShelf);
+  };
+
   render() {
     return (
       <div className="app">
@@ -57,9 +80,25 @@ class BooksApp extends React.Component {
               <h1>MyReads</h1>
             </div>
             <div className="list-books-content">
-              <BookShelf name="Currently Reading" books={this.state.books.filter(book => book.shelf === 'currentlyReading')} />
-              <BookShelf name="Want to Read" books={this.state.books.filter(book => book.shelf === 'wantToRead')} />
-              <BookShelf name="Read" books={this.state.books.filter(book => book.shelf === 'read')} />
+              <BookShelf
+                name="Currently Reading"
+                books={this.state.books.filter(
+                  book => book.shelf === 'currentlyReading',
+                )}
+                moveBook={this.moveBook}
+              />
+              <BookShelf
+                name="Want to Read"
+                books={this.state.books.filter(
+                  book => book.shelf === 'wantToRead',
+                )}
+                moveBook={this.moveBook}
+              />
+              <BookShelf
+                name="Read"
+                books={this.state.books.filter(book => book.shelf === 'read')}
+                moveBook={this.moveBook}
+              />
             </div>
             <div className="open-search">
               <a onClick={() => this.setState({ showSearchPage: true })}>

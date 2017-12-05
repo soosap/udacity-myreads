@@ -1,6 +1,7 @@
 import * as React from 'react';
 
-const Book = ({ title, authors, imageLinks }) => {
+const Book = ({ book, moveBook }) => {
+  const { title, authors, imageLinks, shelf } = book;
   return (
     <li>
       <div className="book">
@@ -15,7 +16,7 @@ const Book = ({ title, authors, imageLinks }) => {
             }}
           />
           <div className="book-shelf-changer">
-            <select>
+            <select value={shelf} onChange={(e) => moveBook(book, e.target.value)}>
               <option value="none" disabled>
                 Move to...
               </option>
