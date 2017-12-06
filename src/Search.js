@@ -30,7 +30,12 @@ class Search extends React.Component {
   };
 
   render() {
-    const { moveBook, history } = this.props;
+    const { moveBook, history, books } = this.props;
+
+    const merged = this.state.searchResults.map(book => {
+      const x = books.find(b => b.id === book.id);
+      return x ? x : book;
+    });
 
     return (
       <div className="search-books">
@@ -59,7 +64,7 @@ class Search extends React.Component {
           <ol className="books-grid">
             {this.state.searchResults &&
               !this.state.searchResults.error &&
-              this.state.searchResults.map(book => (
+              merged.map(book => (
                 <Book key={book.id} book={book} moveBook={moveBook} />
               ))}
           </ol>

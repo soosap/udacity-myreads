@@ -59,6 +59,7 @@ class BooksApp extends React.Component {
               path="/search"
               component={() => (
                 <Search
+                  books={this.state.books}
                   moveBook={this.moveBook}
                 />
               )}
